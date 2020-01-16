@@ -1,0 +1,10 @@
+---
+title: "Visualization Data India"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+
+Data <- read_csv('India_data_filtered.csv')
+```
