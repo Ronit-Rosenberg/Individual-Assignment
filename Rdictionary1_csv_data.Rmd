@@ -4,7 +4,26 @@ output: html_notebook
 ---
 
 ```{r}
+# load in tidyverse
 library(tidyverse)
 
-Data <- read_csv('India_data_filtered.csv')
+# make a new variable from the csv file data and filter for data on 2015
+India_2015 <- read_csv('India_data_filtered.csv') %>% 
+  filter(year == '2015') 
+
+# make a new variable with the summarized number of deaths in India in 2015
+summarized_India_2015 <- summarize(India_2015, total = sum(deaths_best_estimate))
+
 ```
+```{r}
+# creating a bar graph of the summarized data India 2015
+ggplot(data = summarized_India_2015) +
+  geom_bar( mapping = aes ( 
+    x = "India 2015", y = total +
+      xlab ("India 2015") +
+      ylab ("Best estimates of deaths") +
+      ggtitle ("Estimated deaths in India in 2015")
+    ))
+
+```
+
