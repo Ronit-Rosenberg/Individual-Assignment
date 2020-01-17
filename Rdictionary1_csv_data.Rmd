@@ -7,23 +7,35 @@ output: html_notebook
 # load in tidyverse
 library(tidyverse)
 
-# make a new variable from the csv file data and filter for data on 2015
-India_2015 <- read_csv('India_data_filtered.csv') %>% 
-  filter(year == '2015') 
-
-# make a new variable with the summarized number of deaths in India in 2015
-summarized_India_2015 <- summarize(India_2015, total = sum(deaths_best_estimate))
+# load in data for all years
+India <- read_csv('India_data_filtered.csv') 
 
 ```
 ```{r}
+# new variable with summarized deaths for all years
+summarized_India <- India %>%
+  group_by(year) %>%
+  summarize(total = sum(deaths_best_estimate))
+
+# save a new variable with data filtered for specific years
+# summarized_India_filtered <- summarized_India %>%
+#  filter(
+#  year %in% c('2002', '2015') )
+
+```
+
+
+```{r}
 # creating a bar graph of the summarized data India 2015
-ggplot(data = summarized_India_2015) +
-  geom_bar( mapping = aes ( 
-    x = "India 2015", y = total +
-      xlab ("India 2015") +
-      ylab ("Best estimates of deaths") +
-      ggtitle ("Estimated deaths in India in 2015")
-    ))
+ggplot(data = summarized_India) +
+  geom_col( mapping = aes ( 
+    x = year, y = total)) +
+  # adding a label on the x-axis
+  xlab('Year') +
+  # adding a label on the y-axis
+  ylab('Best Estimated Deaths') +
+  # adding a title
+  ggtitle('Best Estimated Deaths in India 1989-2015')
 
 ```
 
